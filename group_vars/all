@@ -102,24 +102,22 @@ node:
             default_vids: "10 20"
             default_pvid: "1"
             STP_priority: "8192"
-            members: ["BONDS","regex vni.*"]
+            members: ["vx-sw","server01","server02","regex vni.*"]
 
         ### Role cumulus_interfaces ###
         SVI:
             VLAN10:
                 members: ["vx-rtr.10"]
-                ipv4: "192.168.10.3/24"
+                ipv4: "192.168.10.2/24"
                 vrr_ipv4: "192.168.10.1/24"
                 vrr_mac: "44:39:39:FF:00:10"
                 alias: "VXLAN GW Linux Bridge"
             VLAN20:
                 members: ["vx-rtr.20"]
-                ipv4: "192.168.20.3/24"
+                ipv4: "192.168.20.2/24"
                 vrr_ipv4: "192.168.20.1/24"
                 vrr_mac: "44:39:39:FF:00:20"
                 alias: "VXLAN GW Linux Bridge"
-
-
 
         ### Role cumulus_interfaces ###
         MLAG:
@@ -199,7 +197,21 @@ node:
             default_vids: "10 20"
             default_pvid: "1"
             STP_priority: "8192"
-            members: ["server01","server02","regex vni.*"]
+            members: ["vx-sw","server01","server02","regex vni.*"]
+        SVI:
+            VLAN10:
+                members: ["vx-rtr.10"]
+                ipv4: "192.168.10.3/24"
+                vrr_ipv4: "192.168.10.1/24"
+                vrr_mac: "44:39:39:FF:00:10"
+                alias: "VXLAN GW Linux Bridge"
+            VLAN20:
+                members: ["vx-rtr.20"]
+                ipv4: "192.168.20.3/24"
+                vrr_ipv4: "192.168.20.1/24"
+                vrr_mac: "44:39:39:FF:00:20"
+                alias: "VXLAN GW Linux Bridge"
+
 
         MLAG:
             peerlink_name: "peerlink"
