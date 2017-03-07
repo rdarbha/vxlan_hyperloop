@@ -4,7 +4,7 @@
 global:
 
     #Save a local copy of all of the templates rendered on the remote switch
-    save_local: "enable"
+    save_local: "disable"
 
     ### NTP section specify ntp servers, timezone, interface to update NTP   ###
     ntp:
