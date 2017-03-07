@@ -1,0 +1,79 @@
+---
+- hosts: all
+  tasks:
+  - name: set list of ips not to include in the pings
+    set_fact:
+      dont_ping:
+        - '169.254.255.1'
+        - '169.254.255.2'
+    run_once: true
+    delegate_to: "localhost"
+
+  - name: grab local ips from each device
+    set_fact:
+      ips: "{{ ips|default([]) + (hostvars[item].ansible_all_ipv4_addresses) }}"
+    with_inventory_hostnames: "{{ansible_play_batch}}"
+    delegate_to: "localhost"
+    run_once: true
+
+  - name: set new list of ips to ping without exceptions
+    set_fact:
+      ping_list: "{{ ping_list|default([]) + [item] }}"
+    when: item not in dont_ping and item not in ping_list|default([])
+    with_items: "{{ ips|sort() }}"
+    delegate_to: "localhost"
+    run_once: true
+
+  - name: pinging all IPs in the clos
+    shell: "ping {{ item }} -c 1 -i 0.5"
+    with_items:
+      - "{{ ping_list|sort() }}"
+    register: result
+    changed_when: "result.rc != 0"
+    ignore_errors: True
+
+#failed pings
+  - name: combine failed pings into single dict per device
+    set_fact:
+      failed_pings: "{{ failed_pings|default({})|combine( { ansible_hostname:( ( failed_pings|default({}) )[ ansible_hostname ]|default([]) + [ item.item ] ) } ) }}"
+    with_items: "{{ result.results }}"
+    when: item.rc != 0
+    delegate_to: "localhost"
+
+  - name: combine all individual failed pings lists into one
+    set_fact:
+      full_ping_failures: "{{ full_ping_failures|default({}) |combine( hostvars[item].failed_pings|default({}) ) }}"
+    with_inventory_hostnames: "{{ansible_play_batch}}"
+    delegate_to: "localhost"
+    run_once: true
+
+#passed pings
+  - name: combine passed pings into single dict per device
+    set_fact:
+      passed_pings: "{{ passed_pings|default({})|combine( { ansible_hostname:( ( passed_pings|default({}) )[ ansible_hostname ]|default([]) + [ item.item ] ) } ) }}"
+    with_items: "{{ result.results }}"
+    when: item.rc == 0
+    delegate_to: "localhost"
+
+  - name: combine all individual passed pings lists into one
+    set_fact:
+      full_ping_passes: "{{ full_ping_passes|default({}) |combine( hostvars[item].passed_pings|default({}) ) }}"
+    with_inventory_hostnames: "{{ansible_play_batch}}"
+    delegate_to: "localhost"
+    run_once: true
+
+  # - name: print single dict with failed pings per device
+  #   debug: var=failed_pings
+  #   delegate_to: "localhost"
+
+  - name: Failed Pings
+    debug:
+      msg: "{{ full_ping_failures|default({}) }}"
+    delegate_to: "localhost"
+    run_once: true
+
+  - name: PAssed Pings
+    debug:
+      msg: "{{ full_ping_passes|default({}) }}"
+    delegate_to: "localhost"
+    run_once: true
