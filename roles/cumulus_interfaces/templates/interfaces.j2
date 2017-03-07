@@ -316,12 +316,21 @@ iface bridge
 {### Create the VLAN L3 virtual interface (SVI) ###}
 {% if svi is defined %}
 {%   for vlan_int in svi %}
+
+{### Add support for Linux bridge by putting a members line in the SVI ###}
+{%     if svi[vlan_int].members is defined %}
+auto VLAN{{vlan_int[4:]}}
+iface VLAN{{vlan_int[4:]}}
+  bridge_ports {{svi[vlan_int].members | join(" ")}}
+{%     else %}
 auto bridge.{{vlan_int[4:]}}
-{%     if svi[vlan_int].dhcp is defined and svi[vlan_int].dhcp == "enable" %}
+{%       if svi[vlan_int].dhcp is defined and svi[vlan_int].dhcp == "enable" %}
 iface bridge.{{vlan_int[4:]}} inet dhcp
-{%     else -%}
+{%       else -%}
 iface bridge.{{vlan_int[4:]}}
+{%       endif -%}
 {%     endif -%}
+
 {%     if svi[vlan_int].ipv4 is defined %}
   address {{svi[vlan_int].ipv4}}
 {%     endif -%}

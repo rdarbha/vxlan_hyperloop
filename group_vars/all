@@ -66,28 +66,6 @@ global:
 
 node:
     leaf01:
-
-        ### Role cumulus_ports ###
-        #Breakout cable config no config or definition leaves the default
-        #Valid values ("10G","40G/4","40G","4x10G","4x25G","2x40G","2x50G")
-        #ports:
-            #swp1:
-            #swp2: "4x10G"
-            #swp3: "2x40G"
-            #swp4: "2x25G"
-            #swp5: "2x50G"
-        snmp:
-            #pollserver: "yes"
-            #user: "cumulusUser"
-            #md5: "password"
-            #sha: "onlyuseshaormd5notboth"
-            #aes: "atleast8characters"
-            #des: "jasonheller"
-            #rouser: "cumulusUser"
-            #iquerySecName: "cumulusUser"
-            #linkUpDownNotifications: "enable"
-            #trapsink: "127.0.0.1"
-
         ### Role cumulus_interfaces ###
         #Interface specific configurations for L1/L2/L3 paramenters
         interfaces:
