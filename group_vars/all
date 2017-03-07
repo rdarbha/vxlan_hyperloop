@@ -91,7 +91,7 @@ node:
                 bridge_access: "10"
             server02:
                 members: ["swp2"]
-                clagid: 1
+                clagid: 2
                 LACP_bypass: "enable"
                 bridge_access: "20"
 
@@ -191,7 +191,7 @@ node:
                 bridge_access: "10"
             server02:
                 members: ["swp2"]
-                clagid: 1
+                clagid: 2
                 LACP_bypass: "enable"
                 bridge_access: "20"
 
