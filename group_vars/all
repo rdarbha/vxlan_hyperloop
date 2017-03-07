@@ -71,7 +71,6 @@ node:
         interfaces:
             loopback:
                 ipv4: "10.0.0.11/32"
-
             eth0:
                 #Put eth0 and mgmt services NTP, SNMP, clag backup-ip into VRF mgmt
                 vrfmgmt: "enable"
@@ -170,7 +169,6 @@ node:
         interfaces:
             loopback:
                 ipv4: "10.0.0.12/32"
-
             eth0:
                 vrfmgmt: "enable"
                 dhcp: "enable"
@@ -248,31 +246,46 @@ node:
         interfaces:
             loopback:
                 ipv4: "10.0.0.13/32"
+            eth0:
+                #Put eth0 and mgmt services NTP, SNMP, clag backup-ip into VRF mgmt
+                vrfmgmt: "enable"
+                dhcp: "enable"
 
         bonds:
+            vx-rtr:
+                members: ["swp46","swp48"]
+            vx-sw:
+                members: ["swp45","swp47"]
+                vids: "10 20"
             server03:
-                mstpctl-portadminedge: "enable"
-                bpdugaurd: "enable"
-                alias: "Server01 MLAG"
                 members: ["swp1"]
-                clagid: 3
-                mtu: 9216
+                clagid: 1
                 LACP_bypass: "enable"
-
+                bridge_access: "10"
             server04:
-                mstpctl-portadminedge: "enable"
-                bpdugaurd: "enable"
-                alias: "Server02 MLAG"
                 members: ["swp2"]
-                clagid: 4
-                mtu: 9216
+                clagid: 2
                 LACP_bypass: "enable"
+                bridge_access: "20"
 
         VLANS:
-            default_vids: "10 20 30 40 50 100-110"
+            default_vids: "10 20"
             default_pvid: "1"
             STP_priority: "8192"
-            members: ["server03","server04","regex vni.*"]
+            members: ["vx-sw","server03","server04","regex vni.*"]
+        SVI:
+            VLAN10:
+                members: ["vx-rtr.10"]
+                ipv4: "192.168.10.3/24"
+                vrr_ipv4: "192.168.10.1/24"
+                vrr_mac: "44:39:39:FF:00:10"
+                alias: "VXLAN GW Linux Bridge"
+            VLAN20:
+                members: ["vx-rtr.20"]
+                ipv4: "192.168.20.3/24"
+                vrr_ipv4: "192.168.20.1/24"
+                vrr_mac: "44:39:39:FF:00:20"
+                alias: "VXLAN GW Linux Bridge"
 
         MLAG:
             peerlink_name: "peerlink"
@@ -293,7 +306,7 @@ node:
 
        ### Role cumulus_interfaces ###
         VXLAN:
-            LNV_VNI_list: ["10","20","30","40","50"]
+            LNV_VNI_list: ["10","20"]
 
         BGP:
             asn: 64603
@@ -307,31 +320,46 @@ node:
         interfaces:
             loopback:
                 ipv4: "10.0.0.14/32"
+            eth0:
+                #Put eth0 and mgmt services NTP, SNMP, clag backup-ip into VRF mgmt
+                vrfmgmt: "enable"
+                dhcp: "enable"
 
         bonds:
+            vx-rtr:
+                members: ["swp46","swp48"]
+            vx-sw:
+                members: ["swp45","swp47"]
+                vids: "10 20"
             server03:
-                mstpctl-portadminedge: "enable"
-                bpdugaurd: "enable"
-                alias: "Server01 MLAG"
                 members: ["swp1"]
-                clagid: 3
-                mtu: 9216
+                clagid: 1
                 LACP_bypass: "enable"
-
+                bridge_access: "10"
             server04:
-                mstpctl-portadminedge: "enable"
-                bpdugaurd: "enable"
-                alias: "Server02 MLAG"
                 members: ["swp2"]
-                clagid: 4
-                mtu: 9216
+                clagid: 2
                 LACP_bypass: "enable"
+                bridge_access: "20"
 
         VLANS:
-            default_vids: "10 20 30 40 50 100-110"
+            default_vids: "10 20"
             default_pvid: "1"
             STP_priority: "8192"
-            members: ["server03","server04","regex vni.*"]
+            members: ["vx-sw","server03","server04","regex vni.*"]
+        SVI:
+            VLAN10:
+                members: ["vx-rtr.10"]
+                ipv4: "192.168.10.3/24"
+                vrr_ipv4: "192.168.10.1/24"
+                vrr_mac: "44:39:39:FF:00:10"
+                alias: "VXLAN GW Linux Bridge"
+            VLAN20:
+                members: ["vx-rtr.20"]
+                ipv4: "192.168.20.3/24"
+                vrr_ipv4: "192.168.20.1/24"
+                vrr_mac: "44:39:39:FF:00:20"
+                alias: "VXLAN GW Linux Bridge"
 
         MLAG:
             peerlink_name: "peerlink"
@@ -352,7 +380,7 @@ node:
 
        ### Role cumulus_interfaces ###
         VXLAN:
-            LNV_VNI_list: ["10","20","30","40","50"]
+            LNV_VNI_list: ["10","20"]
 
         BGP:
             asn: 64604
