@@ -386,7 +386,7 @@ node:
         VXLAN:
             LNV_VNI_list: ["10","20"]
             per_vlan_router_mac_lookup: "TRUE"
-            evpn: "10.0.0.134
+            evpn: "10.0.0.134"
 
         BGP:
             asn: 64604
