@@ -276,13 +276,13 @@ node:
         SVI:
             VLAN10:
                 members: ["vx-rtr.10"]
-                ipv4: "192.168.10.3/24"
+                ipv4: "192.168.10.2/24"
                 vrr_ipv4: "192.168.10.1/24"
                 vrr_mac: "44:39:39:FF:00:10"
                 alias: "VXLAN GW Linux Bridge"
             VLAN20:
                 members: ["vx-rtr.20"]
-                ipv4: "192.168.20.3/24"
+                ipv4: "192.168.20.2/24"
                 vrr_ipv4: "192.168.20.1/24"
                 vrr_mac: "44:39:39:FF:00:20"
                 alias: "VXLAN GW Linux Bridge"
