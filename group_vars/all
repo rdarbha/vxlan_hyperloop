@@ -132,10 +132,10 @@ node:
             description: "Leaf01-Leaf02 MLAG peerlink"
 
         ### Role cumulus_lnv ###
-        LNV:
-            registration_node:
-                svcnode: "10.0.0.100"
-                vxlan_anycast_ip: "10.0.0.112"
+        # LNV:
+        #     registration_node:
+        #         svcnode: "10.0.0.100"
+        #         vxlan_anycast_ip: "10.0.0.112"
 
         ### Role cumulus_interfaces ###
         VXLAN:
@@ -145,6 +145,7 @@ node:
             #You will want to add these to the bridge can add member "regex vni.*"
             LNV_VNI_list: ["10","20"]
             per_vlan_router_mac_lookup: "TRUE"
+            evpn: "10.0.0.112"
             #If using LNV you do not need any of the following
             #VNIs:
                 #VXLAN ID will be the numbers following VNI
@@ -223,15 +224,16 @@ node:
             description: "Leaf01-Leaf02 MLAG peerlink"
 
         ### Role cumulus_lnv ###
-        LNV:
-            registration_node:
-                svcnode: "10.0.0.100"
-                vxlan_anycast_ip: "10.0.0.112"
+        # LNV:
+        #     registration_node:
+        #         svcnode: "10.0.0.100"
+        #         vxlan_anycast_ip: "10.0.0.112"
 
        ### Role cumulus_interfaces ###
         VXLAN:
             LNV_VNI_list: ["10","20"]
             per_vlan_router_mac_lookup: "TRUE"
+            evpn: "10.0.0.112"
 
         BGP:
             asn: 64602
@@ -299,14 +301,16 @@ node:
             description: "Leaf03-Leaf04 MLAG peerlink"
 
         ### Role cumulus_lnv ###
-        LNV:
-            registration_node:
-                svcnode: "10.0.0.100"
-                vxlan_anycast_ip: "10.0.0.134"
+        # LNV:
+        #     registration_node:
+        #         svcnode: "10.0.0.100"
+        #         vxlan_anycast_ip: "10.0.0.134"
 
        ### Role cumulus_interfaces ###
         VXLAN:
             LNV_VNI_list: ["10","20"]
+            per_vlan_router_mac_lookup: "TRUE"
+            evpn: "10.0.0.134"
 
         BGP:
             asn: 64603
@@ -373,14 +377,16 @@ node:
             description: "Leaf03-Leaf04 MLAG peerlink"
 
         ### Role cumulus_lnv ###
-        LNV:
-            registration_node:
-                svcnode: "10.0.0.100"
-                vxlan_anycast_ip: "10.0.0.134"
+        # LNV:
+        #     registration_node:
+        #         svcnode: "10.0.0.100"
+        #         vxlan_anycast_ip: "10.0.0.134"
 
        ### Role cumulus_interfaces ###
         VXLAN:
             LNV_VNI_list: ["10","20"]
+            per_vlan_router_mac_lookup: "TRUE"
+            evpn: "10.0.0.134
 
         BGP:
             asn: 64604
@@ -568,8 +574,6 @@ node:
                 anycast: "10.0.0.100"
                 peers: ["10.0.0.22"]
 
-
-
     spine02:
         interfaces:
         #All L3 interfaces go in this section
@@ -588,8 +592,6 @@ node:
             service_node:
                 anycast: "10.0.0.100"
                 peers: ["10.0.0.21"]
-
-
 
     edge01:
         interfaces:

@@ -32,6 +32,9 @@
 {%   if interface == "loopback" -%}
 auto lo
 iface lo inet loopback
+{%     if node.VXLAN.evpn is defined %}
+  clagd-vxlan-anycast-ip {{node.VXLAN.evpn}}
+{%     endif %}
 {%     if node.LNV is defined -%}
 {%       if node.LNV.service_node is defined %}
   address {{node.LNV.service_node.anycast}}/32
@@ -363,6 +366,9 @@ iface vni-10{{vni_id}}
     vxlan-local-tunnelip {{intvars["loopback"].ipv4[:-3] }}
     mstpctl-bpduguard yes
     mstpctl-portbpdufilter yes
+{%       if node.VXLAN.evpn is defined %}
+    bridge-learning off
+{%       endif -%}
 {%     endfor -%}
 {%   endif -%}
 {% endif -%}

@@ -187,7 +187,17 @@ router bgp {{ bgpvars.asn }}
 {%     endif -%}
  exit-address-family
 {%   endif %}
+!
+ address-family evpn
+{%  if node.VXLAN is defined %}
+{%    if node.VXLAN.evpn is defined %}
+  neighbor fabric activate
+  advertise-all-vni
+{%    endif %}
+{%  endif %}
+
 {% endif %}
+
 {#######  END BGP configuration #######}
 !
 {### Configure node specific prefix lists ###}
