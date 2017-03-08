@@ -561,6 +561,9 @@ node:
             loopback:
                 ipv4: "10.0.0.21/32"
 
+        VXLAN:
+            evpn: "enable"
+
         BGP:
             asn: 64512
             #Redistribute connected routes default is all or specify route-map name
@@ -569,10 +572,10 @@ node:
                 fabric:
                     interfaces: ["swp1","swp2","swp3","swp4","swp29","swp30"]
 
-        LNV:
-            service_node:
-                anycast: "10.0.0.100"
-                peers: ["10.0.0.22"]
+        # LNV:
+        #     service_node:
+        #         anycast: "10.0.0.100"
+        #         peers: ["10.0.0.22"]
 
     spine02:
         interfaces:
@@ -588,10 +591,13 @@ node:
                 fabric:
                     interfaces: ["swp1","swp2","swp3","swp4","swp29","swp30"]
 
-        LNV:
-            service_node:
-                anycast: "10.0.0.100"
-                peers: ["10.0.0.21"]
+        VXLAN:
+            evpn: "enable"
+
+        # LNV:
+        #     service_node:
+        #         anycast: "10.0.0.100"
+        #         peers: ["10.0.0.21"]
 
     edge01:
         interfaces:
