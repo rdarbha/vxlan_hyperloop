@@ -4,7 +4,7 @@
 global:
 
     #Save a local copy of all of the templates rendered on the remote switch
-    save_local: "disable"
+    save_local: "enable"
 
     ### NTP section specify ntp servers, timezone, interface to update NTP   ###
     ntp:
@@ -56,13 +56,14 @@ global:
         LOOPBACK:
             - "route-map LOOPBACK permit 100"
             - "  match interface lo"
+        REDIST_NEIGHBOR:
+            - "route-map REDIST_NEIGHBOR permit 10"
+            - "  match interface swp1"
 
     prefix_lists:
         global_out_list:
             - "ip 10 permit 5.6.7.0/24 le 32"
             - "ip 100 deny any"
-
-
 
 node:
     leaf01:
@@ -158,6 +159,7 @@ node:
             asn: 64601
             #Redistribute connected routes default is all or specify route-map name
             redistribute_connected_ipv4: "LOOPBACK"
+            redistribute_neighbor: ["server01"]
             #ipv4_networks: ["192.168.10.0/24"]
             #ipv6_networks: ["2600:1010::0/64"]
 
@@ -239,6 +241,7 @@ node:
             asn: 64602
             #Redistribute connected routes default is all or specify route-map name
             redistribute_connected_ipv4: "LOOPBACK"
+            redistribute_neighbor: ["server01"]
             peer_groups:
                 fabric:
                     interfaces: ["swp51","swp52"]
@@ -316,6 +319,7 @@ node:
             asn: 64603
             #Redistribute connected routes default is all or specify route-map name
             redistribute_connected_ipv4: "LOOPBACK"
+            redistribute_neighbor: ["server03"]
             peer_groups:
                 fabric:
                     interfaces: ["swp51","swp52"]
@@ -392,6 +396,7 @@ node:
             asn: 64604
             #Redistribute connected routes default is all or specify route-map name
             redistribute_connected_ipv4: "LOOPBACK"
+            redistribute_neighbor: ["server03"]
             peer_groups:
                 fabric:
                     interfaces: ["swp51","swp52"]

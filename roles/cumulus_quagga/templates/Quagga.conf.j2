@@ -233,6 +233,10 @@ router bgp {{ bgpvars.asn }}
 {%   endfor %}
 {% endif %}
 !
+{% if bgpvars.redistribute_neighbor is defined %}
+ip import-table 10
+{% endif %}
+!
 {### Configure global route-maps ###}
 {% if globalmaps is defined %}
 {%   for map_name in globalmaps -%}
