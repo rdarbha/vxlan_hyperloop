@@ -1,0 +1,129 @@
+
+# /etc/network/interfaces template for switches (leaf04)
+# Created by Ansible
+
+auto lo
+iface lo inet loopback
+  clagd-vxlan-anycast-ip 10.0.0.134
+  address 10.0.0.14/32
+
+auto eth0
+iface eth0 inet dhcp
+   vrf mgmt
+
+
+auto mgmt
+iface mgmt
+  address 127.0.0.1/8
+  vrf-table auto
+
+
+
+
+
+auto swp1
+iface swp1
+
+auto server03
+iface server03
+bond-slaves swp1
+   bridge-access 10
+  clag-id 1
+
+auto swp46
+iface swp46
+auto swp48
+iface swp48
+
+auto vx-rtr
+iface vx-rtr
+bond-slaves swp46 swp48
+
+auto swp45
+iface swp45
+auto swp47
+iface swp47
+
+auto vx-sw
+iface vx-sw
+bond-slaves swp45 swp47
+   bridge-vids 10 20
+
+auto swp2
+iface swp2
+
+auto server04
+iface server04
+bond-slaves swp2
+   bridge-access 20
+  clag-id 2
+
+
+auto swp49
+iface swp49
+  mtu 9216
+auto swp50
+iface swp50
+  mtu 9216
+
+auto peerlink
+iface peerlink
+bond-slaves swp49 swp50
+  mtu 9216
+
+
+auto peerlink.4094
+iface peerlink.4094
+  clagd-enable yes
+  address 169.254.255.2/30
+  clagd-peer-ip 169.254.255.1
+  clagd-backup-ip 192.168.200.13 vrf mgmt
+  clagd-sys-mac 44:39:39:FF:40:95
+  alias Leaf03-Leaf04 MLAG peerlink
+
+
+auto bridge
+iface bridge
+  bridge-vlan-aware yes
+  bridge-ports vx-sw server03 server04 regex vni.*  peerlink 
+  bridge-vids 10 20
+  bridge-pvid 1
+  mstpctl-treeprio 8192
+
+
+
+auto VLAN10
+iface VLAN10
+  bridge_ports vx-rtr.10
+  address 192.168.10.3/24
+  alias VXLAN GW Linux Bridge
+  address-virtual 44:39:39:FF:00:10 192.168.10.1/24
+
+auto VLAN20
+iface VLAN20
+  bridge_ports vx-rtr.20
+  address 192.168.20.3/24
+  alias VXLAN GW Linux Bridge
+  address-virtual 44:39:39:FF:00:20 192.168.20.1/24
+auto vni-1010
+iface vni-1010
+    vxlan-id 1010
+    bridge-access 10
+    vxlan-local-tunnelip 10.0.0.14
+    mstpctl-bpduguard yes
+    mstpctl-portbpdufilter yes
+    bridge-learning off
+auto vni-1020
+iface vni-1020
+    vxlan-id 1020
+    bridge-access 20
+    vxlan-local-tunnelip 10.0.0.14
+    mstpctl-bpduguard yes
+    mstpctl-portbpdufilter yes
+    bridge-learning off
+auto swp51
+iface swp51
+    mtu 9216
+auto swp52
+iface swp52
+    mtu 9216
