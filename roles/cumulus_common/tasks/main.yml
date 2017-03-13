@@ -9,7 +9,7 @@
 - name: Set time zone /etc/timezone
   copy: content={{global.ntp.timezone}} dest=/etc/timezone
   when: global.ntp.timezone is defined
-  notify: 
+  notify:
     - update timezone
   tags:
     - time_setup
@@ -19,7 +19,7 @@
 - name: Setup NTP
   template: src=ntp.j2 dest=/etc/ntp.conf
   when: global.ntp is defined
-  notify: 
+  notify:
     - restart NTP
     - Verify NTP
   tags:
@@ -31,6 +31,9 @@
   file: path=config/{{ ansible_hostname }} state=directory recurse=yes
   delegate_to: localhost
   become: no
+  owner: cumulus
+  group: cumulus
+  mode: 0644
   tags:
     - interface_setup
     - local
@@ -74,7 +77,7 @@
   tags:
     - proxy_setup
     - initial_setup
-      
+
 
 - name: Setup HTTPS proxy
   blockinfile:
@@ -130,7 +133,7 @@
 #Check if roles/cumulus_common/files/topology.dot file is actually defined
 - name: Check if local PTM dot file is created
   local_action: stat path="topology.dot"
-  register: ptmresult    
+  register: ptmresult
   tags:
     - ptm_setup
 
@@ -157,7 +160,7 @@
   tags:
     - apt_setup
     - initial_setup
- 
+
 - name: Installing additional packages
   apt: name={{item}}
   with_items: "{{global.additional_packages.cumulus_repo}}"
@@ -165,7 +168,7 @@
   tags:
     - apt_setup
     - initial_setup
- 
+
 - name: Add Debian jessie repo for additional packages
   apt_repository: state=present repo={{ item }}
   with_items:
@@ -181,7 +184,7 @@
   tags:
     - apt_setup
     - initial_setup
- 
+
 - name: Installing additional packages from Debian Repo
   apt: name={{item}}
   with_items: "{{global.additional_packages.debian_repo}}"
@@ -192,7 +195,7 @@
 
 #Export all logs to remote syslog server
 - name: Setup remote syslog server
-  copy: 
+  copy:
     content="*.*                             @{{global.remote_syslog_server}}\n"
     dest="/etc/rsyslog.d/15-remotesyslog.conf"
   when: global.remote_syslog_server is defined
