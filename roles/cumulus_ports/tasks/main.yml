@@ -6,7 +6,7 @@
     - initial_setup
 
 - name: create config folder locally
-  file: path=config/{{ ansible_hostname }} state=directory recurse=yes
+  file: path=config/{{ ansible_hostname }} state=directory recurse=yes mode=0744
   delegate_to: localhost
   become: no
   tags:
@@ -17,6 +17,7 @@
 
 - name: create rendered flat-file /etc/cumulus/ports.conf locally
   template: src=ports.j2  dest=config/{{ ansible_hostname }}/ports.conf
+  become: no
   delegate_to: localhost
   tags:
     - local
