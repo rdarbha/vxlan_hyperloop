@@ -39,9 +39,9 @@ global:
     #remote_syslog_server: "192.168.0.254:514"
 
     #User to create on the box for non sudo access and Quagga readonly access
-    readonly_user: "readonly"
+    # readonly_user: "readonly"
     #Default vty password: readonly 'mOmF4Kx3/N4Rs'
-    readonly_password: 'mOmF4Kx3/N4Rs'
+    # readonly_password: 'mOmF4Kx3/N4Rs'
 
     #Quagga passwords use Encrypted value
     #Default enable password: CumulusLinux! 'EI3shB8./Ozus'
@@ -56,9 +56,6 @@ global:
         LOOPBACK:
             - "route-map LOOPBACK permit 100"
             - "  match interface lo"
-        REDIST_NEIGHBOR:
-            - "route-map REDIST_NEIGHBOR permit 10"
-            - "  match interface swp1"
 
     prefix_lists:
         global_out_list:
