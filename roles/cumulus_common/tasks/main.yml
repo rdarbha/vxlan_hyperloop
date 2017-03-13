@@ -28,10 +28,7 @@
     - initial_setup
 
 - name: create config folder locally
-  file: path=config/{{ ansible_hostname }} state=directory recurse=yes
-    owner: cumulus
-    group: cumulus
-    mode: 0644
+  file: path=config/{{ ansible_hostname }} state=directory recurse=yes owner=cumulus group=cumulus mode=0644
   delegate_to: localhost
   become: no
   tags:
