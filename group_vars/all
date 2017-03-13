@@ -456,17 +456,6 @@ node:
                 fabric:
                     interfaces: ["swp51","swp52"]
 
-                internet_peers:
-                    remote_as: "external"
-                    peers: ["10.50.2.1"]
-                    prefix_list_in: "external_in"
-                    prefix_list_out: "rack_networks"
-                    description: "Internet networks"
-                    address_family_ipv4: "enable"
-                    address_family_ipv6: "enable"
-
-
-
     spine01:
         interfaces:
         #All L3 interfaces go in this section
