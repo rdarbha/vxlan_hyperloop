@@ -19,7 +19,7 @@
         state=present
 
     - name: install eau8 of quagga
-      apt: name="apt-get install cumulus-evpn" update_cache=yes
+      apt: name="cumulus-evpn" update_cache=yes
 
     - name: upgrade quagga
       apt: upgrade=yes update_cache=yes
