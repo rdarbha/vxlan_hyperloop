@@ -6,14 +6,14 @@
   tasks:
     - name: uncomment early access repo
       lineinfile: >
-        path=/etc/apt/sources.list
+        dest=/etc/apt/sources.list
         regexp="#deb     http://repo3.cumulusnetworks.com/repo CumulusLinux-3-early-access cumulus"
         line="deb     http://repo3.cumulusnetworks.com/repo CumulusLinux-3-early-access cumulus"
         state=present
 
     - name: uncomment early access repo sources
       lineinfile: >
-        path=/etc/apt/sources.list
+        dest=/etc/apt/sources.list
         regexp="#deb-src http://repo3.cumulusnetworks.com/repo CumulusLinux-3-early-access cumulus"
         line="deb-src http://repo3.cumulusnetworks.com/repo CumulusLinux-3-early-access cumulus"
         state=present
