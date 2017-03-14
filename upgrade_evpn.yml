@@ -22,5 +22,5 @@
       apt: name="cumulus-evpn" update_cache=yes
 
     - name: upgrade quagga
-      shell: "sudo apt-get upgrade -y --force-yes"
+      shell: "sudo apt-get upgrade -y --force-yes -o Dpkg::Options::="--force-confnew""
 
