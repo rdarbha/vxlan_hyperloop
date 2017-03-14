@@ -1,3 +1,24 @@
+- name: uncomment early access repo
+  lineinfile:
+    path: /etc/apt/sources.list
+    regexp: "#deb     http://repo3.cumulusnetworks.com/repo CumulusLinux-3-early-access cumulus"
+    line: "deb     http://repo3.cumulusnetworks.com/repo CumulusLinux-3-early-access cumulus"
+    state: present
+
+- name: uncomment early access repo sources
+  lineinfile:
+    path: /etc/apt/sources.list
+    regexp: "#deb-src http://repo3.cumulusnetworks.com/repo CumulusLinux-3-early-access cumulus"
+    line: "deb-src http://repo3.cumulusnetworks.com/repo CumulusLinux-3-early-access cumulus"
+    state: present
+
+- name: install eau8 of quagga
+  apt: name="apt-get install cumulus-evpn" update_cache=yes
+
+- name: upgrade quagga
+  apt: upgrade=yes update_cache=yes
+
+
 - name: create config folder locally
   file: path=config/{{ ansible_hostname }} state=directory recurse=yes
   delegate_to: localhost
