@@ -1,0 +1,39 @@
+
+# /etc/network/interfaces template for switches (spine01)
+# Created by Ansible
+
+auto lo
+iface lo inet loopback
+  clagd-vxlan-anycast-ip enable
+  address 10.0.0.21/32
+
+
+auto eth0
+iface eth0 inet dhcp
+
+
+
+
+
+
+
+
+
+auto swp1
+iface swp1
+    mtu 9216
+auto swp2
+iface swp2
+    mtu 9216
+auto swp3
+iface swp3
+    mtu 9216
+auto swp4
+iface swp4
+    mtu 9216
+auto swp29
+iface swp29
+    mtu 9216
+auto swp30
+iface swp30
+    mtu 9216
