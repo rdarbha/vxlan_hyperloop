@@ -24,3 +24,5 @@
     - name: upgrade quagga
       shell: "sudo apt-get upgrade -y --force-yes -o Dpkg::Options::='--force-confnew'"
 
+    - name: reboot after upgrade
+      shell: "sudo reboot"
