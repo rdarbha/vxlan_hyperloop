@@ -1,0 +1,9 @@
+## Ansible managed file
+
+zebra=yes
+bgpd=yes
+ospfd=no
+ospf6d=no
+ripd=no
+ripngd=no
+isisd=no
